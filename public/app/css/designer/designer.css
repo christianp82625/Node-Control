@@ -1,0 +1,13 @@
+.designer-directive {
+   position: relative;
+   width: 100%;
+   height: 800px;
+}
+
+.designer-directive .paper-scroller {
+   background-color: #eee;
+}
+
+.designer-directive .paper-container {
+    border-top: 1px solid #e3e3e3;
+}

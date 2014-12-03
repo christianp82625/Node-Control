@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div ng-show="loggedIn" ng-controller="OrganizationsCtrl">
+            <div class="row-fluid">
+                <div class="span4">
+                    <h3>Organizations</h3>
+                </div>
+                <div class="span8">
+                    <button class="btn btn-success btn-large pull-right" style="padding: 14px;" ng-click="open('new')">
+                         Add New
+                    </button>
+                </div>
+            </div>
+            <table class='table table-bordered'>
+                <thead>
+                <tr>
+                    <th>Organization</th>
+                    <th>Contact First Name</th>
+                    <th>Contact Last Name</th>
+                    <th>Contact Email</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat='organization in organizations'>
+                    <td>{{organization.organization}}</td>
+                    <td>{{organization.organization_contact_name_first}}</td>
+                    <td>{{organization.organization_contact_name_last}}</td>
+                    <td>{{organization.organization_contact_email}}</td>
+                    <td>{{organization.address.street1}} {{organization.address.street2}} {{organization.address.city}} {{organization.address.country}} {{organization.address.postal_code}} </td>
+                    <td><button role='button' class='btn btn-primary' ng-click="open(organization)">Edit</button></td>
+                    <td><button role='button' class='btn btn-danger' ng-really-message="Are you sure?" ng-really-click="delete(organization)">Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

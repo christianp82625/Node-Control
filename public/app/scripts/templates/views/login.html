@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="row">
+        <div class="span4 offset3"></div>
+        <div class="span4">
+            <h3>Log in</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span8 offset4">
+            <form name="loginForm" class="form-horizontal" novalidate ng-controller="accountCtrl" ng-submit="login(user)">
+                <div class="control-group">
+                    <label class="control-label">Email</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="email" ng-model="user.username" name="username" autocomplete="off" placeholder="Enter email" autofocus required/>
+                        <div ng-show="loginForm.username.$pristine && loginForm.submitted" >
+                            <span class="help-inline" ng-show="loginForm.username.$error.required">Field required</span>
+                        </div>
+                        <div ng-show="!loginForm.username.$error.required && loginForm.$invalid && !loginForm.first_attempt" >
+                            <span class="help-inline" ng-show="loginForm.submitted && loginForm.username.$error.email">Invalid email</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Password</label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="password" ng-model="user.password" name="password" autocomplete="off" placeholder="Password" required/>
+                        <div ng-show="loginForm.password.$pristine && loginForm.password.$invalid && loginForm.submitted">
+                            <span class="help-inline" ng-show="loginForm.password.$error.required">Field required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" class="btn btn-primary">Log In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

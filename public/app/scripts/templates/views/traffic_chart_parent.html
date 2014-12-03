@@ -1,0 +1,34 @@
+<div class="well" id="traffic_chart_parent" ng-cloak>
+  <div class="example" id="_example" style="display:none"></div>
+
+  <div ng-controller="trafficViewCtrl">
+  <select ng-model="from">
+    <option>-48hour</option>
+    <option>-24hour</option>
+    <option>-8hour</option>
+    <option>-6hour</option>
+    <option>-4hour</option>
+    <option>-2hour</option>
+    <option>-1hour</option>
+    <option>-30minutes</option>
+    <option>-15minutes</option>
+  </select>
+  <br>
+  <span class="label">All Agents TX/RX bits per second (bps)</span><br>
+  <timeseries title="All Agents RX/TX bits/sec (bps)" target="scaleToSeconds(sumSeries(scale(agents.*.*.net_tx_bytes_delta,8)),1)&target=scaleToSeconds(sumSeries(scale(agents.*.*.net_rx_bytes_delta,8)),1)" from="{{from}}" width="1614" height="226" graphonly="false" format="png" areamode="all"></timeseries>
+  <br>
+  <span class="label">All Agents TX/RX Packets (pps)</span><br>
+  <timeseries title="All Agents TX/RX packets/sec (pps)" target="scaleToSeconds(sumSeries(agents.*.*.net_tx_packets_delta),1)&target=scaleToSeconds(sumSeries(scale(agents.*.*.net_rx_packets_delta,8)),1)" from="{{from}}"width="1614" height="226" graphonly="false" format="png" areamode="all"></timeseries>
+  <br>
+  <span class="label">Target HTTP Monitoring (5s timeout)</span>
+  <br/>
+  <timeseries title="Target HTTP Monitoring" target="maxSeries(agents.*.*.monitor.*.time_total)&target=maxSeries(agents.*.*.monitor.*.tcp_connect_s)&target=maxSeries(agents.*.*.monitor.*.dns_lookup_time_s)" from="{{from}}" width="1614" height="226" graphonly="false" format="png" areamode="all"></timeseries>
+  <br>
+  <span class="label">All Agents HTTP(s) Requests/s</span>
+  <br/>
+  <timeseries title="All Agents HTTP(s) Requests/s" target="movingAverage(sumSeries(scaleToSeconds(agents.*.*.httpx_tx_requests,1)),3)" from="{{from}}" width="1614" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+  <br>
+  <span class="label">All Agents HTTP(s) Errors"</span>
+  <br/>
+  <timeseries title="All Agents HTTP(s) Errors" target="sumSeries(agents.*.*.httpx_tx_errors)" from="{{from}}" width="1614" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+</div>

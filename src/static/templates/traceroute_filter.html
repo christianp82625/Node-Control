@@ -1,0 +1,64 @@
+<div class="well" id="traceroute_filter"  ng-controller="tracerouteFilterCtrl">
+  <table>
+    <tr>
+      <td>
+	<select ui-select2="select2opts" data-placeholder="Source" ng-model="from" ng-options="r.from as r.from for r in traceroutes | orderBy:'from' | uniq:'from':true">
+	  <option value=""></option>
+	</select>
+      </td>
+      <td>
+	<select ui-select2="select2opts" data-placeholder="Target" ng-model="to" ng-options="r.to as r.to for r in traceroutes | orderBy:'to' | uniq:'to':true ">
+	  <option value=""></option>
+	</select>
+      </td>
+      <td>
+	<select ui-select2="select2opts" data-placeholder="IP Address" ng-model="ip" ng-options="h.hop_ip as h.hop_ip for h in traceroutes | pluck:'hops' | orderBy:'hop_ip' | uniq:'hop_ip':true ">
+	  <option value=""></option>
+	</select>
+      </td>
+      <td>
+	<select ui-select2="select2opts" data-placeholder="AS Name" ng-model="asn" ng-options="h.as_name as h.as_name for h in traceroutes | pluck:'hops' | orderBy:'as_name' | uniq:'as_name':true ">
+	  <option value=""></option>
+	</select>
+      </td>
+      <td class="row-fluid">
+	<div class="pull-right">
+	  <div class="input-append">
+	    <input class="span9" type="text" placeholder="Filter" ng-model="filter"/>
+	    <button class="btn" ng-click="filter=''">Cancel</button>
+	  </div>
+	</div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<div>
+	  <slider floor="1" ceiling="12" ng-model="showHops.first"></slider>
+	  <span>Show {{showHops.format('first')}} hops</span>
+	</div>
+      </td>
+      <td>
+	<div>
+	  <slider floor="1" ceiling="12" ng-model="showHops.last"></slider>
+	  <span>Show {{showHops.format('last')}} hops</span>
+	</div>
+      </td>
+      <td colspan="2">
+	<div ng-switch on="showHops.color">
+	  <slider class="highlight-slider" floor="0" ceiling="100" precision="1" step="0.5" ng-model="showHops.color"></slider>
+	  <span ng-switch-when="0.0">Color no hops</span>
+	  <span ng-switch-default>Color hops slower than <strong>{{showHops.color}}</strong> ms</span>
+	</div>
+      </td>
+      <td>
+	<select class="pull-right" ng-model="time" ng-options="r.time as r.text for r in timeranges"></select>
+      </td>
+    </tr>
+  </table>
+  <traceroutes from="{{from}}" to="{{to}}" asn-filter="{{asn}}" ip-filter="{{ip}}" filter="{{regex(filter)}}" show-first-n-hops="{{showHops.get('first')}}" show-last-n-hops="{{showHops.get('last')}}" highlight-slow-hops-ms="{{showHops.color}}" time-from-epoch-s="{{time}}"></traceroutes>
+  <div class="info" ng-switch on="traceroutes.length">
+    <div class="alert alert-warning" ng-switch-when="0">No traceroutes found</div>
+    <div class="alert alert-success" ng-switch-when="1">1 traceroute loaded</div>
+    <div class="alert alert-success" ng-switch-default>{{traceroutes.length}} traceroutes loaded</div>
+  </div>
+</div>

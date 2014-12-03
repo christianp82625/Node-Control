@@ -1,0 +1,164 @@
+<form name="container.org_form" novalidate ng-submit="orgForm()">
+    <div class='modal-header'>
+        <button type="button" class="close" ng-click="closeModal()"  aria-hidden="true">×</button>
+        <h3 ng-hide="container.newOrganization">Edit Organization: {{ container.organization.organization }}</h3>
+        <h3 ng-show="container.newOrganization">New Organization</h3>
+    </div>
+    <div class='modal-body'>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                        <fieldset>
+                            <legend>Basic Info</legend>
+                        </fieldset>
+                    </div>
+                    <div class="span3">
+                        <fieldset>
+                            <legend>Address</legend>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.org_form.organization.$invalid && container.submitted }">
+                        <input type="text" class="form-control"
+                               ng-model="container.organization.organization"
+                               placeholder="Organization Name"
+                               name="organization" autofocus required/>
+                        <span class="help-block help-inline" ng-show="container.org_form.organization.$error.required && container.submitted">Organization Name is required.</span>
+                    </div>
+                    <div class="span3">
+                        <input type="text" class="form-control"
+                               ng-model="container.organization.address.street1"
+                               placeholder="Street Line 1"
+                               name="street1"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.org_form.organization_contact_name_first.$invalid && container.submitted }">
+                        <input type="text" class="form-control"
+                               ng-model="container.organization.organization_contact_name_first"
+                               placeholder="Contact First Name"
+                               id="organization_contact_name_first"
+                               name="organization_contact_name_first" required/>
+                        <span class="help-block help-inline" ng-show="container.org_form.organization_contact_name_first.$error.required && container.submitted">Contact First Name is required.</span>
+                    </div>
+                    <div class="span3">
+                        <input type="text" class="form-control"
+                               ng-model="container.organization.address.street2"
+                               placeholder="Street Line 2"
+                               name="street2"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.org_form.organization_contact_name_last.$invalid && container.submitted }">
+                        <input type="text" class="form-control"
+                               ng-model="container.organization.organization_contact_name_last"
+                               placeholder="Contact Last Name"
+                               name="organization_contact_name_last" required/>
+                        <span class="help-block help-inline" ng-show="container.org_form.organization_contact_name_last.$error.required && container.submitted">Contact Last Name is required.</span>
+                    </div>
+                    <div class="span1">
+                        <input class="span1" class="form-control" type='text'
+                               ng-model="container.organization.address.unit"
+                               placeholder="Unit"
+                               name="unit"/>
+                    </div>
+                    <div class="span2">
+                        <input class="span2" class="form-control" type='text'
+                               ng-model="container.organization.address.building"
+                               placeholder="Building"
+                               name="building"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.org_form.organization_contact_email.$invalid && container.submitted }">
+                        <input type="email" autocomplete="off"
+                               ng-model="container.organization.organization_contact_email"
+                               placeholder="Contact Email"
+                               name="organization_contact_email"
+                               ensure-unique="organization.organization_contact_email" required /> <!-- <model.field> to check uniqueness -->
+                        <span class="help-block help-inline"
+                              ng-show="container.org_form.organization_contact_email.$error.required
+                                    && container.submitted">Contact Email is required.</span>
+                        <span class="help-block help-inline"
+                              ng-show="container.org_form.organization_contact_email.$error.unique">That email is taken, please try another</span>
+                    </div>
+                    <div class="span3">
+                        <input type="text" class="form-control"
+                               ng-model="container.organization.address.city"
+                               placeholder="City"
+                               name="city"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                    </div>
+                    <div class="span3">
+                        <input class="span2" type='text' class="form-control"
+                               ng-model="container.organization.address.postal_code"
+                               placeholder="Postal Code"
+                               name="postal_code"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                    </div>
+                    <div class="span3">
+                        <input class="span2" type='text' class="form-control"
+                               ng-model="container.organization.address.region"
+                               placeholder="Region"
+                               name="region"/>
+                        <!--<select ui-select2="select2opts" class="span2 form-control" data-placeholder="Region" ng-model="organization.address.region" ng-options="reg for reg in regions | orderBy:'reg'">-->
+                            <!--<option value=""></option>-->
+                        <!--</select>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                    </div>
+                    <div class="span3">
+                        <select ui-select2="select2opts" class="span2 form-control" data-placeholder="Country"
+                                ng-model="container.organization.address.country"
+                                ng-options="country for country in countries | orderBy:'country'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeModal()">Cancel</button>
+        <!--<button type="button" class="btn btn-primary" ng-click="save(organization)">Save</button>-->
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

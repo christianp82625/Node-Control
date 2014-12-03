@@ -1,0 +1,31 @@
+<div class="well" id="agent_health_parent">
+  <div ng-controller="trafficViewCtrl">
+  <select ng-model="from">
+    <option>-48hour</option>
+    <option>-24hour</option>
+    <option>-8hour</option>
+    <option>-6hour</option>
+    <option>-4hour</option>
+    <option>-2hour</option>
+    <option>-1hour</option>
+  </select>
+  <br>
+  <span class="label"># of Agents Registered vs. Active</span>
+  <br>
+  <timeseries title="# of Agents Registered vs. Active" target="redwolf.global.agents.num_registered&target=redwolf.global.agents.num_enabled" from="{{from}}" width="1614" height="226" format="png" areamode="all"></timeseries>
+  <br>
+  <span class="label">Agent Load Average</span>
+  <br>
+  <timeseries title="All Agents Load Average" target="averageSeries(agents.*.*.load.1m)&target=averageSeries(agents.*.*.load.5m)&target=averageSeries(agents.*.*.load.15m)" from="{{from}}" width="1614" height="226" format="png" areamode="all"></timeseries>
+
+  <br>
+  <span class="label">Objects in Database</span>
+  <br>
+  <timeseries title="Objects in Database" target="redwolf.objectstore.object_count" from="{{from}}" width="1614" height="226" format="png" areamode="all"></timeseries>
+
+  <br>
+  <span class="label">Control Server Load</span>
+  <br>
+  <timeseries title="Control Server Load" target="redwolf.objectstore.load_avg_1m" from="{{from}}" width="1614" height="226" format="png" areamode="all"></timeseries>
+  </div>
+</div>

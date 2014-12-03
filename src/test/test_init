@@ -1,0 +1,3 @@
+# First delete the test object from mongo
+
+mongo redwolf --eval "db.object.remove({ 'uri' : '/test/api/post'})"

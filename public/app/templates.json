@@ -1,0 +1,896 @@
+[
+    {
+        "mime_type": "test_manager/template",
+        "name": "HTTP",
+        "group": "templates",
+        "icon": "img/icons/default.png",
+        "color": "#F39C12",
+        "inspector": "http",
+        "parameters": {
+            "slowloris_direct": true
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "SYN Flood",
+        "group": "templates",
+        "inspector": "http",
+        "color": "#F39C12",
+        "parameters": {
+            "http_flood_direct": true,
+            "hit_and_run_direct": true
+        }
+    },
+    {
+        "mime_type": "test_manager/template",
+        "name": "DNS (1)",
+        "group": "templates",
+        "inspector": "dns",
+        "color": "#EE8866",
+        "parameters": {
+            "a_request": "www.test.com",
+            "randomize_request_prefix": true
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Packet Flooder (1)",
+        "group": "templates",
+        "inspector": "ipv4_packet_flooder",
+        "color": "#E1E1E1",
+        "parameters": {
+            "protocol": "UDP",
+            "randomize_src_port": true,
+            "fixed_port": 8080
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Packet Flooder (2)",
+        "group": "templates",
+        "inspector": "ipv4_packet_flooder",
+        "color": "#E1E1E1",
+        "parameters": {
+            "protocol": "ICMP",
+            "icmp_type": "Type 8 — Echo"
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Stressor (1)",
+        "group": "templates",
+        "inspector": "connection_stressor",
+        "color": "#FF2233",
+        "parameters": {}
+    },
+    {
+        "mime_type": "test_manager/template",
+        "name": "SMTP (1)",
+        "group": "templates",
+        "inspector": "smtp",
+        "color": "#2233FF",
+        "icon": "img/icons/smtp.svg",
+        "parameters": {}
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "PCAP (1)",
+        "group": "templates",
+        "inspector": "pcap",
+        "color": "#666666",
+        "parameters": {}
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Target (1)",
+        "group": "targets",
+        "inspector": "target",
+        "color": "#3498DB",
+        "icon": "img/icons/target.svg",
+        "parameters": {
+            "targets": [
+                { "ip": "10.10.22.1" },
+                { "ip": "www.test.com" }
+            ]
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Target (2)",
+        "group": "targets",
+        "inspector": "target",
+        "color": "#3498DB",
+        "icon": "img/icons/target.svg",
+        "parameters": {
+            "targets": []
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Agent Group (1)",
+        "group": "agents",
+        "inspector": "agent",
+        "color": "#FF98DB",
+        "parameters": {
+            "agents": ["11.11.22.22","213.32.66.4","13.13.1.1"]
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Agent Group (2)",
+        "group": "agents",
+        "inspector": "agent",
+        "color": "#FF98DB",
+        "parameters": {
+            "agents": ["213.32.66.4"]
+        }
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Test (1)",
+        "group": "savedTests",
+        "inspector": "test",
+        "color": "#34495E",
+        "parameters": {}
+    },
+
+    {
+        "mime_type": "test_manager/template",
+        "name": "Test (2)",
+        "group": "savedTests",
+        "inspector": "test",
+        "color": "#34495E",
+        "parameters": {}
+    },
+
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "pcap",
+        "inputs": {
+            "pcap_replay": {
+                "type": "toggle",
+                "label": "PCAP Replay",
+                "group": "general",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "PCAP Replay (must be supplied)"
+                    }
+                }
+            }
+        },
+        "groups": {
+            "general": {
+                "label": "General",
+                "index": 1
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "smtp",
+        "inputs": {
+            "smtp_trojan_virus_spam": {
+                "type": "toggle",
+                "label": "SMTP Trojan/Virus/Spam Flood",
+                "group": "general",
+                "index": 1
+            }
+        },
+        "groups": {
+            "general": {
+                "label": "General",
+                "index": 1
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "connection_stressor",
+        "inputs": {
+            "tcp_ssl_hanging_connection_flood": {
+                "type": "toggle",
+                "label": "TCP SSL Hanging Connection Flood",
+                "group": "general",
+                "index": 1
+            },
+            "ssl_renegotiaion": {
+                "type": "toggle",
+                "label": "SSL re-negotiation / SSL Flood",
+                "group": "general",
+                "index": 2
+            }
+        },
+        "groups": {
+            "general": {
+                "label": "General",
+                "index": 1
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "ipv4_packet_flooder",
+        "inputs": {
+            "packet_size": {
+                "type": "select",
+                "options": [
+                    "",
+                    "small",
+                    "large",
+                    "custom"
+                ],
+                "label": "Packet Size",
+                "group": "general",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "packet size"
+                    }
+                }
+            },
+            "payload_size": {
+                "type": "text",
+                "label": "Custom Payload Size",
+                "group": "general",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "custom payload size"
+                    }
+                },
+                "when": {
+                    "eq": {
+                        "packet_size": "custom"
+                    }
+                }
+            },
+            "ttl": {
+                "type": "text",
+                "label": "TTL",
+                "group": "general",
+                "index": 3,
+                "defaultValue": 64,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "time to live"
+                    }
+                }
+            },
+            "protocol": {
+                "type": "select",
+                "label": "Protocol",
+                "options": [
+                    "",
+                    "ICMP",
+                    "UDP",
+                    "NTP (Reflection)",
+                    "IGMP",
+                    "BGP",
+                    "RIP"
+                ],
+                "group": "protocol",
+                "index": 1,
+                "attrs": {
+                    "select": {
+                        "data-placeholder": "Choose protocol"
+                    }
+                }
+            },
+            "icmp_type": {
+                "type": "select",
+                "label": "ICMP Type",
+                "options": [
+                    "Type 0 — Echo Reply",
+                    "Type 1 — Unassigned",
+                    "Type 2 — Unassigned",
+                    "Type 3 — Destination Unreachable",
+                    "Type 4 — Source Quench (Deprecated)",
+                    "Type 5 — Redirect",
+                    "Type 6 — Alternate Host Address (Deprecated)",
+                    "Type 7 — Unassigned",
+                    "Type 8 — Echo",
+                    "Type 9 — Router Advertisement",
+                    "Type 10 — Router Selection",
+                    "Type 11 — Time Exceeded",
+                    "Type 12 — Parameter Problem",
+                    "Type 13 — Timestamp",
+                    "Type 14 — Timestamp Reply",
+                    "Type 15 — Information Request (Deprecated)",
+                    "Type 16 — Information Reply (Deprecated)",
+                    "Type 17 — Address Mask Request (Deprecated)",
+                    "Type 18 — Address Mask Reply (Deprecated)",
+                    "Type 19 — Reserved (for Security)",
+                    "Types 20-29 — Reserved (for Robustness Experiment)",
+                    "Type 30 — Traceroute (Deprecated)",
+                    "Type 31 — Datagram Conversion Error (Deprecated)",
+                    "Type 32 — Mobile Host Redirect (Deprecated)",
+                    "Type 33 — IPv6 Where-Are-You (Deprecated)",
+                    "Type 34 — IPv6 I-Am-Here (Deprecated)",
+                    "Type 35 — Mobile Registration Request (Deprecated)",
+                    "Type 36 — Mobile Registration Reply (Deprecated)",
+                    "Types 37 — Domain Name Request (Deprecated)",
+                    "Types 38 — Domain Name Reply (Deprecated)",
+                    "Type 39 — SKIP (Deprecated)",
+                    "Type 40 — Photuris"
+                ],
+                "group": "protocol",
+                "index": 2,
+                "when": {
+                    "eq": {
+                        "protocol": "ICMP"
+                    }
+                }
+            },
+            "icmp_code": {
+                "type": "select",
+                "label": "ICMP Code",
+                "options": [
+                    "No code"
+                ],
+                "group": "protocol",
+                "index": 3,
+                "when": {
+                    "eq": {
+                        "protocol": "ICMP"
+                    }
+                }
+            },
+            "randomize_src_port": {
+                "type": "toggle",
+                "label": "Randomize Source Port",
+                "group": "protocol",
+                "index": 2,
+                "when": {
+                    "eq": {
+                        "protocol": "UDP"
+                    }
+                }
+            },
+            "randomize_dst_port": {
+                "type": "toggle",
+                "label": "Randomize Destinatio Port",
+                "group": "protocol",
+                "index": 3,
+                "when": {
+                    "eq": {
+                        "protocol": "UDP"
+                    }
+                }
+            },
+            "fixed_port": {
+                "type": "text",
+                "label": "Fixed Port",
+                "group": "protocol",
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "fixed port (0-65535)"
+                    }
+                },
+                "index": 4,
+                "when": {
+                    "eq": {
+                        "protocol": "UDP"
+                    }
+                }
+            },
+            "tcp_flood": {
+                "type": "select",
+                "label": "TCP Flood",
+                "options": [
+                    "SYN",
+                    "ACK",
+                    "PSH",
+                    "RST",
+                    "FIN",
+                    "URG"
+                ],
+                "group": "tcp_flood",
+                "index": 1
+            },
+            "mtu": {
+                "type": "text",
+                "label": "MTU",
+                "group": "fragment_packets",
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "maximum transmission unit (MTU) size"
+                    }
+                }
+            },
+            "always_set_more_fragments": {
+                "type": "toggle",
+                "label": "Always Set More Fragments",
+                "group": "fragment_packets"
+            }
+        },
+        "groups": {
+            "general": {
+                "label": "General",
+                "index": 1
+            },
+            "protocol": {
+                "label": "Protocol",
+                "index": 2
+            },
+            "tcp_flood": {
+                "label": "TCP Flood",
+                "index": 3,
+                "closed": true
+            },
+            "fragment_packets": {
+                "label": "Fragment Packets",
+                "index": 4,
+                "closed": true
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "dns",
+        "inputs": {
+            "a_request": {
+                "type": "text",
+                "label": "A-Request",
+                "group": "general",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "A-request domain"
+                    }
+                }
+            },
+            "randomize_request_prefix": {
+                "type": "toggle",
+                "label": "Randomize",
+                "group": "general",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Randomize request prefix"
+                    }
+                }
+            },
+            "reflection": {
+                "type": "toggle",
+                "label": "Reflection",
+                "group": "general",
+                "index": 3,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "reflection"
+                    }
+                }
+            },
+            "other": {
+                "type": "text",
+                "label": "Other",
+                "group": "general",
+                "index": 4,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "other"
+                    }
+                }
+            },
+            "tcp_hanging_connection": {
+                "type": "toggle",
+                "label": "Hanging connection",
+                "group": "general",
+                "index": 5,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "TCP hanging connection"
+                    }
+                }
+            }
+        },
+        "groups": {
+            "general": {
+                "label": "General",
+                "index": 1
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "http",
+        "inputs": {
+            "target_port": {
+                "type": "text",
+                "label": "Target port",
+                "group": "header",
+                "index": 1
+            },
+            "method": {
+                "type": "select",
+                "options": [
+                    "",
+                    "GET",
+                    "HEAD",
+                    "POST",
+                    "PUT",
+                    "DELETE",
+                    "TRACE",
+                    "CONNECT",
+                    "OPTIONS",
+                    "PROPFIND",
+                    "PROPPATCH",
+                    "MKCOL",
+                    "COPY",
+                    "MOVE",
+                    "LOCK",
+                    "UNLOCK",
+                    "VERSION-CONTROL",
+                    "REPORT",
+                    "CHECKOUT",
+                    "CHECKIN",
+                    "UNCHECKOUT",
+                    "MKWORKSPACE",
+                    "UPDATE",
+                    "LABEL",
+                    "MERGE",
+                    "BASELINE-CONTROL",
+                    "MKACTIVITY",
+                    "ORDERPATCH",
+                    "ACL",
+                    "PATCH",
+                    "SEARCH",
+                    "RFC 2518 ---------",
+                    "RFC 2616 ---------",
+                    "RFC 3253 ---------",
+                    "RFC 3648 ---------",
+                    "RFC 3744 ---------",
+                    "draft-dusseault-http-patch ---------",
+                    "draft-reschke-webdav-search ---------"
+                ],
+                "label": "Method",
+                "group": "header",
+                "index": 2,
+                "attrs": {
+                    "select": {
+                        "data-placeholder": "Choose method"
+                    }
+                }
+            },
+            "thread_concurrency": {
+                "type": "text",
+                "label": "Thread concurrency",
+                "group": "connection_rates",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Concurrent request threads (1-2000) for HTTP Floods"
+                    }
+                }
+            },
+            "keep_alive": {
+                "type": "toggle",
+                "label": "Keep-alive",
+                "group": "connection_rates",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Keep-alive to re-use connection for multiple requests"
+                    }
+                }
+            },
+            "random_user_agent": {
+                "type": "toggle",
+                "label": "Random user agent",
+                "group": "randomization",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Randomize user agent from built-in list of 600+ user agents"
+                    }
+                }
+            },
+            "random_data_get": {
+                "type": "toggle",
+                "label": "Random data",
+                "group": "randomization",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Add random key=value to every GET request on URL to avoid caching"
+                    }
+                }
+            },
+            "true_client_ip_headers": {
+                "type": "toggle",
+                "label": "True client IP",
+                "group": "vector_options",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Add Akamai-style true-client-ip header"
+                    }
+                }
+            },
+            "x_forwarded_for_headers": {
+                "type": "toggle",
+                "label": "X-forwarder for headers",
+                "group": "vector_options",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Add Proxy/Load Balance style x-forwarded-for header"
+                    }
+                }
+            },
+            "http_flood_direct": {
+                "type": "toggle",
+                "label": "Regular request flood",
+                "group": "engines",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "each request waits for a response"
+                    }
+                }
+            },
+            "hit_and_run_direct": {
+                "type": "toggle",
+                "label": "Hit and Run Flood",
+                "group": "engines",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "client termiantes connection right after request, before reply received"
+                    }
+                }
+            },
+            "slowloris_direct": {
+                "type": "toggle",
+                "label": "Slowloris",
+                "group": "engines",
+                "index": 3,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Requests sent will never complete"
+                    }
+                }
+            },
+            "slow_read_direct": {
+                "type": "toggle",
+                "label": "Slow Read",
+                "group": "engines",
+                "index": 4,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Request sent, response read slowly"
+                    }
+                }
+            },
+            "slow_write_direct": {
+                "type": "toggle",
+                "label": "Slow Write",
+                "group": "engines",
+                "index": 5,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Data sent to server slowly -- good with posts"
+                    }
+                }
+            },
+            "bad_data": {
+                "type": "toggle",
+                "label": "Bad Data",
+                "group": "engines",
+                "index": 6,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "Random data is sent to the server"
+                    }
+                }
+            },
+            "headless_browser_direct": {
+                "type": "toggle",
+                "label": "Headless browser emulation",
+                "group": "engines",
+                "index": 7,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "a 'webkit' browser flood (+5 to +100 requests/sec per agent)"
+                    }
+                }
+            },
+            "tor_requests_enable": {
+                "type": "toggle",
+                "label": "Enable TOR",
+                "group": "tor",
+                "index": 1,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "enable the Onion Router"
+                    }
+                }
+            },
+            "http_flood_tor": {
+                "type": "toggle",
+                "label": "Reqular request flood",
+                "group": "tor",
+                "index": 2,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "each request waits for a response (slower than direct)"
+                    }
+                },
+                "when": {
+                    "eq": {
+                        "tor_requests_enable": true
+                    }
+                }
+            },
+            "slow_read_tor": {
+                "type": "toggle",
+                "label": "TOR: Slow Read",
+                "group": "tor",
+                "index": 3,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "incompatible with some options"
+                    }
+                },
+                "when": {
+                    "eq": {
+                        "tor_requests_enable": true
+                    }
+                }
+            },
+            "slow_write_tor": {
+                "type": "toggle",
+                "label": "Slow Write",
+                "group": "tor",
+                "index": 4,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "incompatible with some options"
+                    }
+                },
+                "when": {
+                    "eq": {
+                        "tor_requests_enable": true
+                    }
+                }
+            },
+            "bad_data_tor": {
+                "type": "toggle",
+                "label": "Bad Data",
+                "group": "tor",
+                "index": 5,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "random data is sent to the server"
+                    }
+                },
+                "when": {
+                    "eq": {
+                        "tor_requests_enable": true
+                    }
+                }
+            },
+            "headless_browser_tor": {
+                "type": "toggle",
+                "label": "Headless browser emulation",
+                "group": "tor",
+                "index": 6,
+                "attrs": {
+                    "label": {
+                        "data-tooltip": "a 'webkit' browser flood (+5 to +100 requests/sec per agent)"
+                    }
+                },
+                "when": {
+                    "eq": {
+                        "tor_requests_enable": true
+                    }
+                }
+            }
+        },
+        "groups": {
+            "header": {
+                "label": "Override HTTP Host Header",
+                "index": 1
+            },
+            "connection_rates": {
+                "label": "Connection Rates",
+                "index": 2
+            },
+            "randomization": {
+                "label": "Randomization",
+                "index": 3,
+                "closed": true
+            },
+            "vector_options": {
+                "label": "HTTP Attack Vector Option",
+                "index": 4,
+                "closed": true
+            },
+            "engines": {
+                "label": "Engines",
+                "index": 5,
+                "closed": true
+            },
+            "tor": {
+                "label": "The Onion Router",
+                "index": 6,
+                "closed": true
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "target",
+        "inputs": {
+            "targets": {
+                "type": "list",
+                "group": "targets",
+                "index": 2,
+                "label": "Target list",
+                "item": {
+                    "type": "object",
+                    "properties": {
+                        "ip": {
+                            "type": "text",
+                            "label": "IP / DNS"
+                        },
+                        "active": {
+                            "type": "toggle",
+                            "label": "Active",
+                            "defaultValue": true
+                        },
+                        "resolve": {
+                            "type": "toggle",
+                            "label": "Resolve on host",
+                            "defaultValue": true
+                        }
+                    }
+                }
+            }
+        },
+        "groups": {
+            "targets": {
+                "label": "Targets",
+                "index": 1
+            }
+        }
+    },
+    {
+        "mime_type": "test_manager/inspector",
+        "name": "agent",
+        "inputs": {
+            "agents": {
+                "type": "select",
+                "label": "Agents",
+                "options": [
+                    "11.22.33.44",
+                    "124.22.2.44",
+                    "13.13.1.1",
+                    "233.33.33.1",
+                    "2.11.44.22",
+                    "11.11.22.22",
+                    "213.32.66.4"
+                ],
+                "multiple": true,
+                "group": "agents"
+            }
+        },
+        "groups": {
+            "agents": {
+                "label": "Agents",
+                "index": 1
+            }
+        }
+    }
+]

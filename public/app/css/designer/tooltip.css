@@ -1,0 +1,6 @@
+/* Rewrite Bootstrap .tooltip values that affect JointJS tooltips. */
+.tooltip {
+  visibility: visible;
+  opacity: 1;
+  padding: 10px !important;
+}

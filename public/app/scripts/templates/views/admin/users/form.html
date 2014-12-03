@@ -1,0 +1,153 @@
+<form name="container.user_form" novalidate ng-submit="userForm()">
+    <div class='modal-header'>
+        <button type="button" class="close" ng-click="closeModal()"  aria-hidden="true">×</button>
+        <h3 ng-hide="container.newUser">Edit User: {{ container.user.user_contact_name_first }} {{ container.user.user_contact_name_last }}</h3>
+        <h3 ng-show="container.newUser">New User</h3>
+    </div>
+    <div class='modal-body'>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                        <fieldset>
+                            <legend>Basic Info</legend>
+                        </fieldset>
+                    </div>
+                    <div class="span3">
+                        <fieldset>
+                            <legend>Address</legend>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.user_form.user_contact_name_first.$invalid && container.submitted }">
+                        <input type="text" class="form-control"
+                               ng-model="container.user.user_contact_name_first"
+                               placeholder="First Name"
+                               name="user_contact_name_first" autofocus required/>
+                        <span class="help-block help-inline" ng-show="container.user_form.user_contact_name_first.$error.required && container.submitted">First Name is required.</span>
+                    </div>
+                    <div class="span3">
+                        <input type="text" class="form-control"
+                               ng-model="container.user.address.street"
+                               placeholder="Street"
+                               name="street"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.org_form.user_contact_name_last.$invalid && container.submitted }">
+                        <input type="text" class="form-control"
+                               ng-model="container.user.user_contact_name_last"
+                               placeholder="Last Name"
+                               name="user_contact_name_last" required/>
+                        <span class="help-block help-inline" ng-show="container.user_form.user_contact_name_last.$error.required && container.submitted">Last Name is required.</span>
+                    </div>
+                    <div class="span1">
+                        <input class="span1" class="form-control" type='text'
+                               ng-model="container.user.address.unit"
+                               placeholder="Unit"
+                               name="unit"/>
+                    </div>
+                    <div class="span2">
+                        <input class="span2" class="form-control" type='text'
+                               ng-model="container.user.address.building"
+                               placeholder="Building"
+                               name="building"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.user_form.user_contact_email.$invalid && container.submitted }">
+                        <input type="email" autocomplete="off"
+                               ng-model="container.user.user_contact_email"
+                               placeholder="Email"
+                               name="user_contact_email"
+                               ensure-unique="user.user_contact_email" required /> <!-- <model.field> to check uniqueness -->
+                        <span class="help-block help-inline"
+                              ng-show="container.user_form.user_contact_email.$error.required
+                                    && container.submitted">Email is required.</span>
+                        <span class="help-block help-inline"
+                              ng-show="container.user_form.user_contact_email.$error.unique">That email is taken, please try another</span>
+                    </div>
+                    <div class="span3">
+                        <input type="text" class="form-control"
+                               ng-model="container.user.address.city"
+                               placeholder="City"
+                               name="city"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3 control-group" ng-class="{'error': container.org_form.user_password.$invalid && container.submitted }">
+                        <input type="password" class="form-control"
+                               ng-model="container.user.user_password"
+                               placeholder="Password"
+                               name="user_password" required/>
+                        <span class="help-block help-inline" ng-show="container.user_form.user_password.$error.required && container.submitted">Password is required.</span>
+                    </div>
+                    <div class="span3">
+                        <input class="span2" type='text' class="form-control"
+                               ng-model="container.user.address.postal_code"
+                               placeholder="Postal Code"
+                               name="postal_code"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                        <select ui-select2="select2opts" class="span2 form-control" data-placeholder="Enabled?"
+                                ng-model="container.user.account_enable"
+                                ng-options="value for value in enabled_options">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="span3">
+                        <input class="span2" type='text' class="form-control"
+                               ng-model="container.user.address.region"
+                               placeholder="Region"
+                               name="region"/>
+                        <!--<select ui-select2="select2opts" class="span2 form-control" data-placeholder="Region" ng-model="organization.address.region" ng-options="reg for reg in regions | orderBy:'reg'">-->
+                        <!--<option value=""></option>-->
+                        <!--</select>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span6">
+                <div class="row">
+                    <div class="span3">
+                    </div>
+                    <div class="span3">
+                        <select ui-select2="select2opts" class="span2 form-control" data-placeholder="Country"
+                                ng-model="container.user.address.country"
+                                ng-options="country for country in countries | orderBy:'country'">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="closeModal()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

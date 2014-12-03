@@ -1,0 +1,318 @@
+<!doctype html>
+<html ng-app="control">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/jquery/jquery-1.10.2.min.js"></script>
+<script src="/js/underscore/underscore-min.js"></script>
+<script src="/js/angular/angular.min.js"></script>
+<script src="/js/ui-bootstrap/ui-bootstrap.min.js"></script>
+<script src="/js/angular-slider/angular-slider.min.js"></script>
+<script src="/js/smart-table/Smart-Table.debug.js"></script>
+<script src="/js/d3/d3.js" charset="utf-8"></script>
+<script src="/js/cubism/cubism.v1.js"></script>
+<script src="/js/go/go-debug.js"></script>
+
+<title>RedWolf Control</title>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/font-awesome/css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="/js/angular-slider/angular-slider.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/app/style.css"/>
+
+<script>
+
+function ui_display_screen( screen ) {
+  var ui_screens = {
+    "agent_list_parent" : false,
+    "timeline_parent" : false,
+    "traffic_chart_parent" : false,
+    "agent_health_parent" : false,
+    "traffic_parameters_parent" : false,
+    "test_parameters_parent" : false,
+    "log_parent" : false,
+    "command_line_parent" : false
+  }
+
+  ui_screens[screen] = true
+  for ( screen_to_hide in ui_screens ) {
+     if ( ui_screens[screen_to_hide] == false ) {
+       $('#' + screen_to_hide).hide()
+     }
+  }
+
+  $('#' + screen).show()
+}
+
+$(document).ready(function() {
+  var debug=true;
+
+// Web Socket
+  var socket = io.connect('/');
+  socket.on('object_push', function (object) {
+    if ( debug ) console.log(object);
+  }); //socket.on
+
+}); // document.ready
+</script>
+</head>
+
+<body>
+<a href="#/agent_list">Agent List</a> |
+<a href="#/agent_health">Agent Health</a> |
+<a href="#/traffic_chart">Traffic Chart</a> |
+<a href="#/test_parameters">Test Parameters</a> |
+<a href="#/traffic_parameters">Traffic Parameters</a> |
+<a href="#/command_line">Command Line</a> 
+<div ng-view></div>
+
+<div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <a class="brand" href="#"><b><font color="#ff0000">Red</font><font color="#FFFFFF">Wolf</font> Control</b></a>
+    <ul id="navbar" class="nav">
+      <li><a href="javascript:ui_display_screen('agent_list_parent')">Agents</a></li>
+      <li><a href="javascript:ui_display_screen('timeline_parent')">Timeline</a></li>
+      <li><a href="javascript:ui_display_screen('traffic_chart_parent');">Traffic</a></li>
+      <li><a href="javascript:ui_display_screen('test_parameters_parent')">Test</a></li>
+      <li><a href="javascript:ui_display_screen('traffic_parameters_parent')">Parameters</a></li>
+      <li><a href="javascript:ui_display_screen('agent_health_parent');">Health</a></li>
+      <li><a href="javascript:ui_display_screen('log_parent')">Logs</a></li>
+      <li><a href="javascript:ui_display_screen('command_line_parent')">CLI</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="bootstrap_parent">
+
+<div class="well" id="traffic_chart_parent" style="display:none">
+  <div class="example" id="_example" style="display:none"></div>
+
+  <div ng-controller="trafficViewController">
+  <select ng-model="from">
+    <option>-48hour</option>
+    <option>-24hour</option>
+    <option>-8hour</option>
+    <option>-6hour</option>
+    <option>-4hour</option>
+    <option>-2hour</option>
+    <option>-1hour</option>
+  </select>
+  <timeseries title="All Agents TX Bytes" target="scaleToSeconds(sumSeries(scale(agents.*.*.net_tx_bytes_delta,8)),1)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="All Agents TX Packets" target="scaleToSeconds(sumSeries(scale(agents.*.*.net_tx_packets_delta,8)),1)" from="{{from}}"width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="All Agents HTTP(s) Requests" target="movingAverage(sumSeries(agents.*.*.httpx_tx_requests),3)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="All Agents HTTP(s) Errors" target="sumSeries(agents.*.*.httpx_tx_errors)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="All Agents Rx Bytes" target="scaleToSeconds(sumSeries(scale(agents.*.*.net_rx_bytes_delta,8)),1)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="All Agents Rx Packets" target="scaleToSeconds(sumSeries(scale(agents.*.*.net_rx_packets_delta,8)),1)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+  </div>
+</div>
+
+<div class="well" id="agent_health_parent" style="display:none">
+  <div ng-controller="trafficViewController">
+  <select ng-model="from">
+    <option>-48hour</option>
+    <option>-24hour</option>
+    <option>-8hour</option>
+    <option>-6hour</option>
+    <option>-4hour</option>
+    <option>-2hour</option>
+    <option>-1hour</option>
+  </select>
+  <timeseries title="# of Agents Registered vs. Active" target="redwolf.global.agents.num_registered&target=redwolf.global.agents.num_enabled" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="All Agents CPU Usage Percent" target="averageSeries(agents.*.*.cpu_load_percent)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="ObjectStore Insertion Rate" target="derivative(redwolf.objectstore.object_count)" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+
+  <timeseries title="ObjectStore Load Averages" target="redwolf.objectstore.load_avg_1m" from="{{from}}" width="1614" height="226" format="png" areamode="stacked"></timeseries>
+  </div>
+</div>
+
+<div class="well" id="command_line_parent" style="display:none">
+   <div id="command_line" ng-controller="commandController">
+      <form><input ui-keypress="{13:'poop(1)'}" type="text" ng-model="command.test"></form>
+      <input ng-keydown='evalCommand(command.line)' ui-keypress="{13:'evalCommand($event)'}" type="text" ng-model="command.line">
+      <button ng-click="poop(command.line)">fetch</button><br>      
+      <pre>{{command.line}} == {{command.line | evalCommand | json }}</pre>
+      <select ng-model="method">
+        <option>GET</option>
+        <option>JSONP</option>
+      </select>
+      <input type="text" ng-model="url" size="80"/>
+      <button ng-click="fetch()">fetch</button><br>
+      <button ng-click="updateModel('GET', 'http-hello.html')">Sample GET</button>
+      <button ng-click="updateModel('JSONP', 'http://angularjs.org/greet.php?callback=JSON_CALLBACK&name=Super%20Hero')">Sample JSONP</button>
+      <button ng-click="updateModel('JSONP', 'http://angularjs.org/doesntexist&callback=JSON_CALLBACK')">Invalid JSONP</button>
+      <pre>http status code: {{status}}</pre>
+      <pre>http response data:<br> <pre>{{data|json}}</pre></pre>
+   </div>
+</div>
+
+<div class="well" id="test_parameters_parent" style="display:none" ng-controller="testController">
+  <tabset>
+    <tab heading="DEFINE TESTS">
+      <table>
+      <tr><td>
+      <datepicker ng-model="test.date" show-weeks="showWeeks" starting-day="1" date-disabled="disabled(date, mode)" min="minDate" max="'2015-06-22'"></datepicker>
+      <input type="hidden" ng-model="test.mime_type" value="test/plan">
+      <textarea rows="4" cols="50" ng-model="test.descripiton"></textarea>Test Description<br/>
+      <input type="text" ng-model="test.maximum_bandwidth">Maximum Test Bandwidth<br>
+      <input type="text" ng-model="test.maximum_active_agents">Maximum Active Agents<br>
+      <input type="text" ng-model="test.maximum_active_agents_per_datacenter">Maximum Active Agents Per Datacenter<br>
+      </td><td><pre>{{test|json}}</pre></td>
+      </tr></table>
+    </tab>
+  </tabset>
+</div>
+
+<div class="well" id="traffic_parameters_parent" style="display:none" ng-controller="trafficController">
+   <div ng-controller="TabsDemoCtrl">
+  <tabset>
+    <tab heading="DEFINE TARGETS">
+     <input type="text" ng-model="test.target"> Target IP or URL<br>
+     <input type="text" ng-model="test.target_port"> Target Port
+    </tab>
+    <tab heading="V:ICMP">
+     <select ng-model="icmp.type">
+	<option>Type 0 — Echo Reply</option>
+	<option>Type 1 — Unassigned</option>
+	<option>Type 2 — Unassigned</option>
+	<option>Type 3 — Destination Unreachable</option>
+	<option>Type 4 — Source Quench (Deprecated)</option>
+	<option>Type 5 — Redirect</option>
+	<option>Type 6 — Alternate Host Address (Deprecated)</option>
+	<option>Type 7 — Unassigned</option>
+	<option>Type 8 — Echo</option>
+	<option>Type 9 — Router Advertisement</option>
+	<option>Type 10 — Router Selection</option>
+	<option>Type 11 — Time Exceeded</option>
+	<option>Type 12 — Parameter Problem</option>
+	<option>Type 13 — Timestamp</option>
+	<option>Type 14 — Timestamp Reply</option>
+	<option>Type 15 — Information Request (Deprecated)</option>
+	<option>Type 16 — Information Reply (Deprecated)</option>
+	<option>Type 17 — Address Mask Request (Deprecated)</option>
+	<option>Type 18 — Address Mask Reply (Deprecated)</option>
+	<option>Type 19 — Reserved (for Security)</option>
+	<option>Types 20-29 — Reserved (for Robustness Experiment)</option>
+	<option>Type 30 — Traceroute (Deprecated)</option>
+	<option>Type 31 — Datagram Conversion Error (Deprecated)</option>
+	<option>Type 32 — Mobile Host Redirect (Deprecated)</option>
+	<option>Type 33 — IPv6 Where-Are-You (Deprecated)</option>
+	<option>Type 34 — IPv6 I-Am-Here (Deprecated)</option>
+	<option>Type 35 — Mobile Registration Request (Deprecated)</option>
+	<option>Type 36 — Mobile Registration Reply (Deprecated)</option>
+	<option>Types 37 — Domain Name Request (Deprecated)</option>
+	<option>Types 38 — Domain Name Reply (Deprecated)</option>
+	<option>Type 39 — SKIP (Deprecated)</option>
+	<option>Type 40 — Photuris</option>
+     </select>
+    </tab>
+    <tab heading="V:UDP">UDP DNS
+    </tab>
+    <tab heading="V:TCP" ng-controller="tcp_generalController">
+         <table><tr><td>
+         <select ng-model="tcp.tcp_type"
+		<option>SYN</option>
+		<option>RST</option>
+		<option>ACK</option>
+		<option>PSH</option>
+		<option>FIN</option>
+		<option>RST</option>
+         </select><br>
+         <h4>Inter-Packet Delays</h4>
+         <slider floor="1" ceiling="100" step="1" precision="2" ng-model="tcp.packet_delay"></slider>
+         <h4>Payload Size</h4>
+         <slider floor="1" ceiling="65000" step="1000" precision="2" ng-model="tcp.payload_size"></slider>
+         </td><td><pre>{{tcp|json}}</pre></td></tr></table>
+     </tab>
+     <tab heading="L7:DNS">
+     L7 DNS
+     </tab>
+     <tab heading="L7:HTTP">
+        <table><tr><td>
+	<h2>TARGET: {{test.target}} PORT: {{test.target_port}}</h2>
+	<label class="checkbox"><input type="checkbox" ng-model="http.monitor.http" checked>Monitor HTTP availability for target every 60 seconds.</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.monitor.traceroute" checked>Perform traceroute for target every 300 seconds.</label>
+	<select ng-model="http.method">
+	<option>GET</option>
+	<option>POST</option>
+	</select>
+	<h4>Connection Rates</h4>
+	<input type="text" ng-model="http.thread_concurrency" value=500> Concurrent request threads<br>
+	<label class="checkbox"><input type="checkbox" ng-model="http.keep_alive"> Keep-alive to re-use connection for multiple requests</label>
+	<h4>Request Origin</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.direct_requests" checked> Requests direct from Agents</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.tor_requests"> Use TOR, the <a href="https://en.wikipedia.org/wiki/Tor_(anonymity_network)" target="_tor">Onion Router</a></label>
+	<h4>Easy Randomization</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.random_user_agent"> Randomize user agent from built-in list of 600+ user agents</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.random_data_get"> Add random key=value to every GET request on URL to avoid caching</label>
+	<h4>HTTP Options</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.true_client_ip_headers"> Add Akamai-style true-client-ip header</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.x_forwarded_for_headers"> Add Proxy/Load Balance style x-forwarded-for header</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.hit_and_run">Option for HTTP attacks to leave more connections hanging/open on server</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slow_read"> Slow Read -- incompatible with some options</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slow_write"> Slow Write -- incompatible with some options</label>
+        </td><td><pre>{{test|json}}<hr>{{http|json}}</pre></td></tr></table>
+        </tab>
+    </tab>
+  </tabset>
+   </div>
+</div>
+
+<div class="well" id="agent_list_parent" style="display:none" ng-controller="agentController">
+    <input type="text" ng-model="search.$" class="input-medium search-query"> Search
+    <table class="table table-striped" id="agent_list_table">
+      <thead>
+        <tr> 
+          <th>Region</th><th>IP</th><th>Registered</th><th>Traffic (last h)</th><th>Attack State</th><th>Command</th><th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="agent in agents | filter:search ">
+          <td>{{agent.ec2_region}}</td>
+          <td>{{agent.public_ip}}</td>
+          <td>{{agent.current_timestamp_s | date:'yyyy-MM-dd HH:mm:ss Z'}}</td>
+          <td><timeseries title="" target="agents.{{agent.ec2_region}}.{{agent.public_ip}}.net_tx_bytes_delta" from="-1hour"  width="150" height="30" format="png" areamode="stacked"></timeseries></td>
+          <td>TBD:Attack State</td>
+          <td>TBD:Command</td>
+          <td>
+		<div ng-controller="ModalDemoCtrl">
+    		<button class="btn" ng-click="open()">Details</button>
+    		<div modal="shouldBeOpen" close="close()" options="opts">
+        		<div class="modal-header">
+            		<h3>Details</h3>
+        		</div>
+        		<div class="modal-body">
+			<timeseries title="{{agent.public_ip}}" target="agents.{{agent.ec2_region}}.{{agent.public_ip}}.*" from="-1hours" width="800" height="226" format="png" areamode="stacked"></timeseries>
+                        <table class="table-striped table-hover">
+                           <tr ng-repeat="(key, value) in agent">
+                           <td>{{key}}</td><td>{{value}}</td>
+                          </tr>
+                        </table>
+            		<ul>
+                		<li ng-repeat="item in items">{{item}}</li>
+            		</ul>
+        		</div>
+        		<div class="modal-footer">
+            		<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+        		</div>
+    		</div>
+		</div>
+         </td>
+       </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+<script>
+ui_display_screen("command_line_parent")
+</script>
+<script type='text/javascript' src="js/controllers/controllers.js"></script>
+</body>
+</html>

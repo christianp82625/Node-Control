@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en" ng-app="control" ng-cloak>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>RedWolf Control</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <link rel="stylesheet" href="assets/app.css">
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="ngProgress-container" class="ng-scope">
+            <div id="ngProgress" style="height: 2px; background-color: rgb(178, 34, 34); color: rgb(178, 34, 34); width: 0%; opacity: 1; ">
+            </div>
+        </div>
+        <div class="navbar navbar-inverse" bs-navbar ng-controller="accountCtrl">
+            <div class="navbar-inner">
+                <a class="brand" href="#"><b><font color="#ff0000">Red</font><font color="#FFFFFF">Wolf</font> Control</b></a>
+                <ul class="nav" ng-show="!loggedIn" ng-cloak>
+                    <li><a href="#/login">Login</a></li>
+                </ul>
+                <ul class="nav" ng-show="loggedIn" ng-cloak>
+                    <li data-match-route="/(:?test_parameters)"><a data-ng-href="{{ r('test_parameters_path') }}">Test</a></li>
+                    <li data-match-route="/traffic_parameters"><a data-ng-href="{{ r('traffic_parameters_path') }}">Parameters</a></li>
+                    <li data-match-route="/designer"><a data-ng-href="{{ r('designer_path') }}">Designer</a></li>
+                    <li data-match-route="/agent_list"><a data-ng-href="{{ r('agent_list_path') }}">Agents</a></li>
+                    <li data-match-route="/agent_detail"><a data-ng-href="{{ r('agent_detail_path') }}">Agent Detail</a></li>
+                    <li data-match-route="/timeline"><a data-ng-href="{{ r('timeline_path') }}">Timeline</a></li>
+                    <li data-match-route="/traffic_chart"><a data-ng-href="{{ r('traffic_chart_path') }}">Traffic</a></li>
+                    <li data-match-route="/agent_health"><a data-ng-href="{{ r('agent_health_path') }}">Health</a></li>
+                    <li data-match-route="/traceroute"><a data-ng-href="{{ r('traceroute_path') }}">Traceroute</a></li>
+                    <li data-match-route="/command_line"><a data-ng-href="{{ r('command_line_path') }}">CLI</a></li>
+                    <li data-match-route="/rest_api"><a data-ng-href="{{ r('rest_api_path') }}">API</a></li>
+                    <li data-match-route="/account"><a data-ng-href="{{ r('account_path') }}">Account</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a data-ng-href="{{ r('organizations_path') }}">Manage Organizations</a></li>
+                            <li><a data-ng-href="{{ r('users_path') }}">Manage Users</a></li>
+                            <li><a data-ng-href="{{ r('users_organizations_path') }}">Manage User Organizations</a></li>
+                            <li><a data-ng-href="{{ r('organizations_licenses_path') }}">Manage Licenses</a></li>
+                            <li class="divider"></li>
+                            <li><a data-ng-href="{{ r('reports_path') }}">Usage Reports</a></li>
+                        </ul>
+                    </li>
+                    <li><a ng-click="logout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="bootstrap_parent">
+            <!--<div class="container">-->
+                <!-- Inject View  Here -->
+                <div growl></div>
+                <div ng-notice></div>
+                <div ng-view></div>
+            <!--</div>-->
+        </div>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/underscore/underscore-min.js"></script>
+        <script src="js/jquery/jquery-1.10.2.min.js"></script>
+        <script src="assets/app.js"></script>
+        <script>
+            var socket = io.connect('/');
+            $(document).ready(function() {
+                var debug=true;
+
+                setInterval(function() {
+                    // try updating all images which are visible
+                    foo = $("img:visible, input[type=image]").each(function() {
+                        this.src = this.src;
+                    });
+                }, 60000);
+
+                // Web Socket
+                socket.emit('object_push', { client_connected : true })
+                socket.on('object_push', function (object) {
+                    if ( debug ) console.log(object);
+                }); //socket.on
+            }); // document.ready
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,9 @@
+#curl -v --insecure -X POST -H "Content-Type: application/json" -d '{"mime_type" : "unit/test", "uri": "/test/api/post", "test_id" : "post_api_save"}' https://control.redwolfsecurity.com/ -uredwolf:bigtest!
+
+# First delete the test object from mongo
+
+mongo redwolf --eval "db.object.remove({ 'uri' : '/test/api/post'})"
+
+echo '{"mime_type" : "unit/test", "uri": "/test/api/post", "test_id" : "post_api_save"}' | curl -v --insecure -X POST -H "Content-Type: application/json" -d @-  https://control.redwolfsecurity.com/ -uredwolf:bigtest!
+
+#echo "{\"mime_type\" : \"unit/test\", \"uri\": \"/test/api/post\", \"test_id\" : \"post_api_save\"}" | curl -v --insecure -X POST -H "Content-Type: application/json" -d "email=paulsop@redwolfsecurity.com&password=alduro" @-  https://localhost:3002/

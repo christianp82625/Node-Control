@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div ng-show="loggedIn" ng-controller="UsersCtrl">
+            <div class="row-fluid">
+                <div class="span4">
+                    <h3>Users</h3>
+                </div>
+                <div class="span8">
+                    <button class="btn btn-success btn-large pull-right" style="padding: 14px;" ng-click="open('new')">
+                         Add New
+                    </button>
+                </div>
+            </div>
+            <table class='table table-bordered'>
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Timezone</th>
+                    <th>Address</th>
+                    <th>Created At</th>
+                    <th>Enabled</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat='user in users'>
+                    <td>{{user.user_contact_name_first}}</td>
+                    <td>{{user.user_contact_name_last}}</td>
+                    <td>{{user.user_contact_email}}</td>
+                    <td>{{user.user_timezone}}</td>
+                    <td>{{user.address.street}} {{user.address.unit}} {{user.address.building}} {{user.address.city}} {{user.address.region}} {{user.address.country}} {{user.address.postal_code}} </td>
+                    <td>{{user.account_created_epoch_time_s * 1000 | date: 'd/MM/yyyy'}}</td>
+                    <td>{{user.account_enable}}</td>
+                    <td><button role='button' class='btn btn-primary' ng-click="open(user)">Edit</button></td>
+                    <td><button role='button' class='btn btn-danger' ng-really-message="Are you sure?" ng-really-click="delete(user)">Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

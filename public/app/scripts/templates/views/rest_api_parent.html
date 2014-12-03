@@ -1,0 +1,13 @@
+<div class="well" id="command_line_parent">
+   <div id="command_line" ng-controller="commandCtrl">
+      <h2>REST API GUI</h2>
+      <button ng-click="updateModel('GET', '/query?mime_type=agent/registration')">Registered Agents</button>
+      <button ng-click="updateModel('GET', '/query?mime_type=traffic_generator/event')">Traffic Generator Event</button>
+      <button ng-click="updateModel('GET', '/query?public_ip=54.241.236.109')">public_ip=54.241.236.109</button>
+      <br>
+      <input class="span8" type="text" ng-model="url" size="80"/>
+      <button ng-click="fetch()">fetch</button><br>
+      <pre>http status code: {{status}}</pre>
+      <pre>http response data:<br> <pre>{{data|json}}</pre></pre>
+   </div>
+</div>

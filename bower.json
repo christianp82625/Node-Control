@@ -1,0 +1,20 @@
+{
+  "name": "control",
+  "version": "1.0.0",
+  "homepage": "https://github.com/redwolfsecurity/control",
+  "authors": [
+    "Aldo Nievas <aldo@satio.com.ar>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "angular": "1.2.6",
+    "json3": "~3.2.6",
+    "es5-shim": "~2.1.0",
+    "angularjs-scope.safeapply": "*"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.6",
+    "angular-scenario": "1.2.6",
+    "angular-route": "1.2.6"
+  }
+}

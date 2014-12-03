@@ -1,0 +1,14 @@
+<div class="well" id="agent_list_parent" ng-controller="agentCtrl">
+    <input type="text" ng-model="search.$" class="input-medium search-query pull-right" placeholder="search"> 
+      <tbody>
+        <div ng-repeat="agent in agents | filter:search ">
+          <h3>Details for {{agent.public_ip}}</h3>
+          <h4>Method 1 (interface)<h4>
+          <timeseries title="BPS Method 1" target="scale(scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.net_tx_bytes_delta,1),8)" from="-1hour"  width="500" height="300" graphonly="false" format="png" areamode="stacked"></timeseries>
+          <timeseries title="PPS Method 1" target="scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.net_tx_packets_delta,1)" from="-1hour"  width="500" height="300" graphonly="false" format="png" areamode="stacked"></timeseries><br>
+          <h4>Method 2 (kernel)</h4>
+          <timeseries title="BPS Method 2" target="scale(scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.network.IpExtOutOctets,1),8)" from="-1hours" width="500" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+          <timeseries title="PPS Method 2" target="scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.network.IpOutRequests,1)" from="-1hours" width="500" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+        </div>
+  </div>
+</div>

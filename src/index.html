@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" ng-app="control">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<head>
+
+<title>RedWolf Control</title>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/font-awesome/css/font-awesome.css"/>
+<link rel="stylesheet" type="text/css" href="/js/angular-slider/angular-slider.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="/css/app/style.css"/>
+<link rel="stylesheet" type="text/css" href="/js/ng-grid/ng-grid.css"/>
+<link rel="stylesheet" type="text/css" href="/css/traceroute/traceroute.css"/>
+<link rel="stylesheet" type="text/css" href="/js/select2/select2.css" />
+
+</head>
+
+<body>
+<div class="navbar navbar-inverse">
+  <div class="navbar-inner">
+    <a class="brand" href="#"><b><font color="#ff0000">Red</font><font color="#FFFFFF">Wolf</font> Control</b></a>
+    <ul id="navbar" class="nav">
+      <li><a href="#/test_parameters">Test</a></li>
+      <li><a href="#/traffic_parameters">Parameters</a></li>
+      <li><a href="#/agent_list">Agents</a></li>
+      <li><a href="#/agent_detail">Agent Detail</a></li>
+      <li><a href="#/timeline">Timeline</a></li>
+      <li><a href="#/traffic_chart">Traffic</a></li>
+      <li><a href="#/agent_health">Health</a></li>
+      <li><a href="#/traceroute">Traceroute</a></li>
+      <li><a href="#/command_line">CLI</a></li>
+      <li><a href="#/rest_api">API</a></li>
+      <li><a href="#/account">Account</a></li>
+      <li><a href="#/logout">Logout</a></li>
+
+    </ul>
+  </div>
+</div>
+
+<div id="bootstrap_parent">
+  <div ng-view></div>
+</div>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/underscore/underscore-min.js"></script>
+<script src="/js/jquery/jquery-1.10.2.min.js"></script>
+<script src="/js/angular/angular.min.js"></script>
+<script src="/js/ui-bootstrap/ui-bootstrap.min.js"></script>
+<script src="/js/angular-slider/angular-slider.min.js"></script>
+<script src="js/ng-grid/ng-grid-2.0.7.debug.js"></script>
+<script src="/js/go/go-debug.js"></script>
+<script src="/js/script-loader/script.min.js"></script>
+
+<script src="/js/traceroute/joint.js"></script>
+
+<script src="/js/app/app.js"></script>
+<script src="/js/app/routes.js"></script>
+<script src="/js/app/directives.js"></script>
+<script src="/js/app/factories.js"></script>
+<script src="/js/app/services.js"></script>
+<script src="/js/app/filters.js"></script>
+<script src="/js/app/controllers.js"></script>
+<script src="/js/ui-utils/modules/keypress/keypress.js"></script>
+<script src="/js/traceroute/traceroute.js"></script>
+<script src="/js/traceroute/traceroute_filter.js"></script>
+<script src="/js/select2/select2.min.js"></script>
+<script src="/js/select2/select2.angular.js"></script>
+<script>
+  var socket = io.connect('/');
+$(document).ready(function() {
+  var debug=true;
+
+  setInterval(function() {
+    // try updating all images which are visible
+    foo = $("img:visible, input[type=image]").each(function() {
+        this.src = this.src;
+    });
+  }, 60000);
+
+  // Web Socket
+  socket.emit('object_push', { client_connected : true })
+  socket.on('object_push', function (object) {
+    if ( debug ) console.log(object);
+  }); //socket.on
+}); // document.ready
+</script>
+</html>

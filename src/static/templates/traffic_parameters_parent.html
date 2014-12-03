@@ -1,0 +1,167 @@
+<div class="well" id="traffic_parameters_parent" ng-controller="trafficController">
+   <div ng-controller="TabsDemoCtrl">
+  <tabset>
+    <tab heading="DEFINE TARGETS">
+     <h3>For Layer 7</h3>
+     <input type="text" ng-model="test.target_url"> URL (e.g. https://domain.com:8080/)<br>
+     <input type="text" ng-model="test.target_l7_ip"> IP address of L7 target (optional - overrides DNS lookup))<br>
+     <h3>For Volumetric</h3>
+     <input type="text" ng-model="test.target_volumetric"> Target IP (V4 or V6) or URL (e.g. https://domain.com:8080/)<br>
+     <input type="text" ng-model="test.target_port"> Target Port
+    </tab>
+    <tab heading="V:ICMP">
+     <input type="text" ng-model="icmp.packet_size"> Payload Size (recommend 1400, larger may fragment)<br>
+     <select ng-model="icmp.type">
+	<option>Type 0 — Echo Reply</option>
+	<option>Type 1 — Unassigned</option>
+	<option>Type 2 — Unassigned</option>
+	<option>Type 3 — Destination Unreachable</option>
+	<option>Type 4 — Source Quench (Deprecated)</option>
+	<option>Type 5 — Redirect</option>
+	<option>Type 6 — Alternate Host Address (Deprecated)</option>
+	<option>Type 7 — Unassigned</option>
+	<option>Type 8 — Echo</option>
+	<option>Type 9 — Router Advertisement</option>
+	<option>Type 10 — Router Selection</option>
+	<option>Type 11 — Time Exceeded</option>
+	<option>Type 12 — Parameter Problem</option>
+	<option>Type 13 — Timestamp</option>
+	<option>Type 14 — Timestamp Reply</option>
+	<option>Type 15 — Information Request (Deprecated)</option>
+	<option>Type 16 — Information Reply (Deprecated)</option>
+	<option>Type 17 — Address Mask Request (Deprecated)</option>
+	<option>Type 18 — Address Mask Reply (Deprecated)</option>
+	<option>Type 19 — Reserved (for Security)</option>
+	<option>Types 20-29 — Reserved (for Robustness Experiment)</option>
+	<option>Type 30 — Traceroute (Deprecated)</option>
+	<option>Type 31 — Datagram Conversion Error (Deprecated)</option>
+	<option>Type 32 — Mobile Host Redirect (Deprecated)</option>
+	<option>Type 33 — IPv6 Where-Are-You (Deprecated)</option>
+	<option>Type 34 — IPv6 I-Am-Here (Deprecated)</option>
+	<option>Type 35 — Mobile Registration Request (Deprecated)</option>
+	<option>Type 36 — Mobile Registration Reply (Deprecated)</option>
+	<option>Types 37 — Domain Name Request (Deprecated)</option>
+	<option>Types 38 — Domain Name Reply (Deprecated)</option>
+	<option>Type 39 — SKIP (Deprecated)</option>
+	<option>Type 40 — Photuris</option>
+     </select> ICMP Type
+    </tab>
+    <tab heading="V:UDP">
+        <h2>UDP Options</h2>
+        <input type="text" ng-model="udp.packet_size"> Payload Size (recommend 1400, larger may fragment)<br>
+        <input type="text" ng-model="udp.mtu"> MTU
+    </tab>
+    <tab heading="V:TCP">
+         <div ng-controller="tcp_generalController">
+         <table><tr><td>
+         <select ng-model="tcp.tcp_type">
+		<option>SYN</option>
+		<option>RST</option>
+		<option>ACK</option>
+		<option>PSH</option>
+		<option>FIN</option>
+		<option>RST</option>
+		<option>URG</option>
+		<option>XMAS</option>
+		<option>YMAS</option>
+         </select><br>
+	 <label class="checkbox"><input type="checkbox" ng-model="tcp.random_source_port"> Randomize source port</label><br>
+	 <label class="checkbox"><input type="checkbox" ng-model="tcp.fragment_bit"> Set fragment bit <input type="text" ng-model="tcp.fragment_offset"></label><br>
+         <h4>MTU</h4>
+         <input type="text" ng-model="tcp.mtu"> MTU
+         <h4>TCP Window Size</h4>
+         <input type="text" ng-model="tcp.window"> Window Size (optional)<br>
+         <h4>Packet Payload Size</h4>
+         <input type="text" ng-model="tcp.packet_size"> Payload Size (recommend 1400, larger may fragment)<br>
+         </td><td><pre>{{tcp|json}}</pre></td></tr></table>
+	 </div>
+     </tab>
+     <tab heading="L7:DNS">
+        <h2>L7 DNS Type of Flood</h2>
+	<label class="checkbox"><input type="checkbox" ng-model="dns.query_flood" checked>DNS Query Flood</label>
+	<label class="checkbox"><input type="checkbox" ng-model="dns.reflection" checked>DNS Reflection Flood</label>
+        (More options coming soon)
+     </tab>
+     <tab heading="L7:HTTP">
+        <table><tr><td>
+	<h2>TARGET: {{test.target}} PORT: {{test.target_port}}</h2>
+        <h4>Override HTTP Host header</h4>
+	<input type="text" ng-model="test.target_port"> Target Port
+	<select ng-model="http.method">
+	<option>RFC 2616 ---------</option>
+	<option>OPTIONS</option>
+	<option>GET</option>
+	<option>HEAD</option>
+	<option>POST</option>
+	<option>PUT</option>
+	<option>DELETE</option>
+	<option>TRACE</option>
+	<option>CONNECT</option>
+	<option>RFC 2518 ---------</option>
+	<option>PROPFIND</option>
+	<option>PROPPATCH</option>
+	<option>MKCOL</option>
+	<option>COPY</option>
+	<option>MOVE</option>
+	<option>LOCK</option>
+	<option>UNLOCK</option>
+	<option>RFC 3253 ---------</option>
+	<option>VERSION-CONTROL</option>
+	<option>REPORT</option>
+	<option>CHECKOUT</option>
+	<option>CHECKIN</option>
+	<option>UNCHECKOUT</option>
+	<option>MKWORKSPACE</option>
+	<option>UPDATE</option>
+	<option>LABEL</option>
+	<option>MERGE</option>
+	<option>BASELINE-CONTROL</option>
+	<option>MKACTIVITY</option>
+	<option>RFC 3648 ---------</option>
+	<option>ORDERPATCH</option>
+	<option>RFC 3744 ---------</option>
+	<option>ACL</option>
+	<option>draft-dusseault-http-patch ---------</option>
+	<option>PATCH</option>
+	<option>draft-reschke-webdav-search ---------</option>
+	<option>SEARCH</option>
+	</select> Method
+	<h4>Connection Rates</h4>
+	<input type="text" ng-model="http.thread_concurrency" ng-init=500> Concurrent request threads (1-2000) for HTTP Floods<br>
+	<label class="checkbox"><input type="checkbox" ng-model="http.keep_alive"> Keep-alive to re-use connection for multiple requests</label>
+	<h4>Randomization</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.random_user_agent"> Randomize user agent from built-in list of 600+ user agents</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.random_data_get"> Add random key=value to every GET request on URL to avoid caching</label>
+	<h4>HTTP Attack Vector Options</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.true_client_ip_headers"> Add Akamai-style true-client-ip header</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.x_forwarded_for_headers"> Add Proxy/Load Balance style x-forwarded-for header</label>
+	<h4>Engines</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.http_flood_direct">Regular request flood -- each request waits for a response</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.hit_and_run_direct">Hit and Run Flood -- client termiantes connection right after request, before reply received</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slowloris_direct">Slowloris -- Requests sent will never complete</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slow_read_direct">Slow Read -- Request sent, response read slowly</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slow_write_direct">Slow Write -- Data sent to server slowly -- good with posts</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.bad_data">Bad Data -- Random data is sent to the server</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.headless_browser_direct">Headless browser emulation -- a 'webkit' browser flood (+5 to +100 requests/sec per agent)</label>
+	<h4>TOR</h4>
+	<label class="checkbox"><input type="checkbox" ng-model="http.tor_requests_enable"> Enable TOR, the <a href="https://en.wikipedia.org/wiki/Tor_(anonymity_network)" target="_tor">Onion Router</a></label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.http_flood_tor">Reqular request flood -- each request waits for a response (slower than direct)</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slow_read_tor">TOR: Slow Read -- incompatible with some options</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.slow_write_tor">TOR: Slow Write -- incompatible with some options</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.bad_data_tor">Bad Data -- Random data is sent to the server</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.headless_browser_tor">Headless browser emulation -- a 'webkit' browser flood (+5 to +100 requests/sec per agent)</label>
+        </td><td><pre>{{test|json}}<hr>{{http|json}}</pre></td></tr></table>
+        </tab>
+    </tab>
+    <tab heading="Monitoring">
+	<h4>Monitor Target</h4>
+	<input type="text" ng-model="monitor.url"> URL to Monitor<br>
+	<label class="checkbox"><input type="checkbox" ng-model="http.monitor.http" checked>Monitor HTTP availability for target every 60 seconds.</label>
+	<label class="checkbox"><input type="checkbox" ng-model="http.monitor.traceroute" checked>Perform traceroute for target every 300 seconds.</label>
+     </tab>
+     <tab heading="Current Parameters">
+        <table><th><td>Test</td><td>HTTP</td><td>Monitoring</td></th><tr><td>{{test|json}}</td><td>{{http|json}}</td><td>{{monitor|json}}</td></tr></table>
+  </tabset>
+   </div>
+</div>
+

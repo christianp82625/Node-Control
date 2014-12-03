@@ -1,0 +1,1 @@
+curl -v --insecure -X POST -H "Content-Type: application/json" -d '{ "mime_type" : "delivery/message", "header" : { "to" : "/", "from": "/unit_test" }, "payload" : [{"mime_type" : "unit/test", "uri": "/test/api/post_message", "test_id" : "post_api_save_message"}]}' https://control.redwolfsecurity.com/ -uredwolf:bigtest!

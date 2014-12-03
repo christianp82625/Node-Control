@@ -1,0 +1,9 @@
+<div class="well" id="command_line_parent">
+    <div id="command_line" ng-controller="commandCtrl">
+        <div class="input-append">
+            <input  class="span10" ui-keypress="{13:'evalCommand($event)'}" type="text" ng-model="command.line" placeholder="Enter commands here">
+            <button class="btn" ng-click="evalCommand(command.line)">Run</button><br>
+        </div>
+        <alert ng-repeat="command in command.history" type="success" close="closeCommandHistory($index)"><b>{{command.command_line}}</b><br/>{{command.result}}</alert>
+    </div>
+</div>

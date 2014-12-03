@@ -1,0 +1,19 @@
+<div class="well" id="test_parameters_parent" ng-controller="testCtrl">
+  <tabset>
+    <tab heading="DEFINE TESTS">
+      <table>
+      <tr><td>
+      <h2>Define a test</h2>
+      <datepicker ng-model="test.date" show-weeks="showWeeks" starting-day="1" date-disabled="disabled(date, mode)" min="minDate" max="'2015-06-22'"></datepicker>
+      <input type="hidden" ng-model="test.mime_type" value="test/plan">
+      <textarea rows="4" cols="50" ng-model="test.descripiton"></textarea>Test Description<br/>
+      <textarea rows="4" cols="50" ng-model="test.contacts"></textarea>Contacts<br/>
+      <input type="number" min="1" max="100000" ng-model="test.maximum_bandwidth">Maximum Test Bandwidth (Megabit)<br>
+      <input type="number" min="1" max="1000" ng-model="test.maximum_active_agents">Maximum Active Agents<br>
+      <input type="number" min="1" max="100" ng-model="test.maximum_active_agents_per_datacenter">Maximum Active Agents Per Datacenter<br>
+      <button ng_model="test.request_submitted">Submit request to RedWolf</button>
+      </td><td><pre>{{test|json}}</pre></td>
+      </tr></table>
+    </tab>
+  </tabset>
+</div>

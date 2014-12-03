@@ -1,0 +1,83 @@
+.stencil-container {
+   border: 1px solid #e3e3e3;
+   border-right: 2px solid #e3e3e3;
+   border-bottom: none;
+   background-color: white;
+   color: #333;
+   height: 738px;
+}
+.stencil-container > label {
+   display: block;
+   text-align: center;
+   background-color: #f5f5f5;
+   font-size: 10px;
+   line-height: 20px;
+   height: 20px;
+}
+.stencil-container .group > .group-label {
+    background: #e3e3e3;
+    color: #333;
+    border-top: 1px solid #a1a1a1;
+    border-bottom: 1px solid #a1a1a1;
+    padding: 0px 0px;
+}
+
+.stencil-container > .btn-expand,
+.stencil-container > .btn-collapse {
+   position: absolute;
+   top: 2px;
+   left: 2px;
+   background: none;
+   border: none;
+   outline: none;
+   color: #08c;
+   cursor: pointer;
+   width: 20px;
+   height: 16px;
+   line-height: 16px;
+   margin: 0;
+   padding: 0;
+   font-weight: bold;
+}
+
+.stencil-container > .btn-expand:hover,
+.stencil-container > .btn-collapse:hover {
+    background: #d2d2d2;
+}
+.stencil-container > .btn-collapse {
+   left: 25px;
+}
+
+.stencil {
+   position: absolute;
+   left: 0;
+   top: 20px;
+   bottom: 0;
+   right: 0;
+   width: calc(100% - 1px);
+   border: none;
+   height: auto;
+   overflow: auto;
+   border-right: 1px solid #eee;
+}
+
+.stencil .group {
+   max-height: 700px;
+}
+.stencil .group .elements {
+   margin-left: -10px;
+   background-color: white;
+}
+.stencil .group-label {
+   height: 20px;
+   line-height: 20px;
+}
+
+.designer-directive .stencil .group > .group-label:before {
+    border-top: 5px solid #08c;
+}
+
+.designer-directive .stencil .group.closed > .group-label:before {
+    border-left: 5px solid #08c;
+    border-top: 5px solid transparent;
+}

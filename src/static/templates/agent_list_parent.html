@@ -1,0 +1,77 @@
+<div class="well" id="agent_list_parent" ng-controller="agentController">
+    <input type="text" ng-model="search.$" class="input-medium search-query pull-right" placeholder="search"> 
+    <b>Traffic Generator:</b> Traffic Shape: <input type="text" ng-model="traffic_shape_per_agent"></input>
+    Volumetric: 
+    <button class="btn btn-info">IGMP</button>
+    <button class="btn btn-info">RIP</button>
+    <button class="btn btn-info">BGP</button>
+    <button class="btn btn-info">ICMP</button>
+    <button class="btn btn-info">UDP</button>
+    | Layer 7: <button class="btn btn-info">HTTPx</button>
+    <button class="btn btn-info">DNS</button>
+    <button class="btn btn-info">SMTP</button>
+    | <button class="btn btn-danger">STOP TRAFFIC</button>
+    <hr>
+    <div ng-controller="ModalDemoCtrl">
+       <button class="btn" ng-click="open()">IP List</button>
+       <div modal="shouldBeOpen" close="close()" options="opts">
+          <div class="modal-header">
+              <h3>IP List for agents<h3>
+           </div>
+           <div class="modal-body">
+              <div ng-repeat="agent in agents | filter:search ">{{agent.public_ip}}</div>
+           </div>
+           <div class="modal-footer">
+              <button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+           </div>
+       </div>
+    </div>
+    <table class="table table-striped" id="agent_list_table">
+      <thead>
+          <th>#</th><th>Provider</th><th>Region</th><th>AS Name</th><th>BGP Prefix</th><th>Agent IP</th><th>Version</th><th>Details</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="agent in agents | filter:search ">
+	  <td>{{$index + 1}}</td>
+          <td>{{agent.agent_provider}}</td>
+          <td>{{agent.agent_region}}</td>
+          <td>{{agent.as_name}}</td>
+          <td>{{agent.bgp_prefix}}</td>
+          <td>{{agent.public_ip}}</td>
+	  <td>{{agent.release_number}}</td>
+          <td>
+		<div ng-controller="ModalDemoCtrl">
+    		<button class="btn" ng-click="open()">Details</button>
+    		<div modal="shouldBeOpen" close="close()" options="opts">
+        		<div class="modal-header">
+            		<h3>Details for {{agent.public_ip}}</h3>
+          		<h4>Registered: {{agent.current_timestamp_s * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}</h4>
+        		</div>
+        		<div class="modal-body">
+          		<h4>Traffic measurement method 1 (interface stats)::</h4>
+          		<timeseries title="BPS Method 1" target="scale(scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.net_tx_bytes_delta,1),8)" from="-1hour"  width="500" height="300" graphonly="false" format="png" areamode="stacked"></timeseries>
+          		<timeseries title="PPS Method 1" target="scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.net_tx_packets_delta,1)" from="-1hour"  width="500" height="300" graph only="false" format="png" areamode="stacked"></timeseries><br>
+          		<h4>Traffic measurement method 2 (kernel stats):</h4>
+          		<timeseries title="BPS Method 2" target="scale(scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.network.IpExtOutOctets,1),8)" from="-1hours" width="500" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+          		<timeseries title="PPS Method 2" target="scaleToSeconds(agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.network.IpOutRequests,1)" from="-1hours" width="500" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+		 	<h4>Agent->Target Monitoring (HTTP request time)</h4>
+			<timeseries title="{{agent.public_ip}}" target="agents.{{agent.agent_region}}.{{agent.public_ip|tometric}}.monitor.target.http.time_total" from="-1hours" width="800" height="226" graphonly="false" format="png" areamode="stacked"></timeseries>
+			<h4>Agent Registration Details</h4>
+                        <table class="table-striped table-hover">
+                           <tr ng-repeat="(key, value) in agent  track by $index">
+                           <td>{{key}}</td><td>{{value}}</td>
+                          </tr>
+                        </table>
+        		</div>
+        		<div class="modal-footer">
+            		<button class="btn btn-warning cancel" ng-click="close()">Cancel</button>
+        		</div>
+    		</div>
+		</div>
+         </td>
+       </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
